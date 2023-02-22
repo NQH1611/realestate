@@ -1,0 +1,18 @@
+.text-bold {
+    font-weight: 600;
+}
+
+.bg-carousel {
+    background-color: #151c58;
+}
+
+.courses-title {
+    font-size: 26px;
+    font-weight: 600;
+}
+.text-pd{
+    color: rgb(253, 209, 65);
+    font-size: 14pt;
+    font-style: italic;
+    text-decoration: underline;
+}

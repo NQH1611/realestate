@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-pic js-tilt" data-tilt>
+                    <img src="https://colorlib.com/etc/lf/Login_v1/images/img-01.png" alt="IMG">
+                </div>
+
+                <form class="login100-form validate-form">
+                    <span class="login100-form-title">
+                        Member Login
+                    </span>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100 lastname" type="text" name="username" placeholder="Last Name">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100 firstname" type="text" name="username" placeholder="First Name">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100 email" type="text" name="username" placeholder="Email">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100 username" type="text" name="username" placeholder="Username">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100 password" type="password" name="password" placeholder="Password">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100 confirmpassword" type="password" name="password"
+                            placeholder="Confirm Password">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <input type="button" class="login100-form-btn btn-register" value="Register">
+                        </input>
+                    </div>
+
+                    <div class="text-center p-t-136">
+                        <a class="txt2" href="./login.html">
+                            Login
+                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".btn-register").on("click", function () {
+            var ObjectDataRegister = {
+                id: "",
+                lastName: "",
+                firstName: "",
+                title: "",
+                titleOfCourtesy: "",
+                birthDay: "",
+                HireDay: "",
+                address: "",
+                city: "",
+                region: "",
+                postalCode: "",
+                Country: "",
+                homePhone: "",
+                Extention: "",
+                photo: "",
+                notes: "",
+                reportsTo: "",
+                userName: "",
+                password: "",
+                email: "",
+                activated: new Date(),
+                profile: "",
+                userLevel: 2,
+            }
+            getData(ObjectDataRegister)
+            if(validateForm(ObjectDataRegister) == true){
+                console.log(ObjectDataRegister)
+                signinForm(ObjectDataRegister)
+            }
+        });
+        function getData(paramObj){
+            paramObj.lastName = $(".lastname").val().trim()
+            paramObj.firstName = $(".firstname").val().trim()
+            paramObj.email = $(".email").val().trim()
+            paramObj.userName = $(".username").val().trim()
+            paramObj.password = $(".password").val().trim()
+        }
+
+        //Sự kiện bấm nút login
+        function signinForm(paramObj) {
+            var loginUrl = "http://localhost:8080/employee";
+
+            //API theo đặc tả sẽ call theo data-form chứ không phải kiểu json nên cần khai báo formdata
+            $.ajax({
+                type: "POST",
+                url: loginUrl,
+                data: JSON.stringify(paramObj),
+                contentType: "application/json",
+                success: function (response) {
+                    alert("Đăng ký thành công")
+                    window.location.href = "./login.html"
+                    //window.location.href = "./employee.html"
+                },
+            });
+        }
+        //Hàm setCookie đã giới thiệu ở bài trước
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        //Hiển thị lỗi lên form
+        function showError(message) {
+            var errorElement = $("#error");
+
+            errorElement.html(message);
+            errorElement.addClass("d-block");
+            errorElement.addClass("d-none");
+        }
+
+        //Validate dữ liệu từ form
+        function validateForm(paramObj) {
+            if(paramObj.lastname == ""){
+                alert("Last Name không phù hợp")
+                return false;
+            }
+            if(paramObj.firstname == ""){
+                alert("First Name không phù hợp")
+                return false;
+            }
+            if(!validateEmail(paramObj.email)) {
+                alert("Email không phù hợp");
+                return false;
+            };
+            if (paramObj.username === "") {
+                alert("Username không phù hợp");
+                return false;
+            }
+            if (paramObj.password === "") {
+                alert("Password không phù hợp");
+                return false;
+            }
+            
+
+            return true;
+        }
+
+        // Hàm validate email bằng regex
+        function validateEmail(email) {
+            const regex =
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return regex.test(String(email).toLowerCase());
+        }
+
+        //Hàm get Cookie đã giới thiệu ở bài trước
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(";");
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == " ") {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+    </script>
+</body>
+
+</html>
